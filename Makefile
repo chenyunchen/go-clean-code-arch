@@ -3,4 +3,4 @@ install-mock:
 	brew upgrade mockery
 
 gen-mock:
-	cd domain; mockery --all
+	cd internal/pkg/domain; mockery --all

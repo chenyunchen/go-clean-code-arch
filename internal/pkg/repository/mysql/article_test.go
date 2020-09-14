@@ -8,12 +8,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
 
-	"github.com/bxcodec/go-clean-arch/article/repository"
-	articleMysqlRepo "github.com/bxcodec/go-clean-arch/article/repository/mysql"
-	"github.com/bxcodec/go-clean-arch/domain"
+	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/domain"
+	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/repository"
+	articleMysqlRepo "gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/repository/mysql"
 )
 
-func TestFetch(t *testing.T) {
+func TestArticalFetch(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -48,7 +48,7 @@ func TestFetch(t *testing.T) {
 	assert.Len(t, list, 2)
 }
 
-func TestGetByID(t *testing.T) {
+func TestArticalGetByID(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -68,7 +68,7 @@ func TestGetByID(t *testing.T) {
 	assert.NotNil(t, anArticle)
 }
 
-func TestStore(t *testing.T) {
+func TestArticalStore(t *testing.T) {
 	now := time.Now()
 	ar := &domain.Article{
 		Title:     "Judul",
@@ -96,7 +96,7 @@ func TestStore(t *testing.T) {
 	assert.Equal(t, int64(12), ar.ID)
 }
 
-func TestGetByTitle(t *testing.T) {
+func TestArticalGetByTitle(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -116,7 +116,7 @@ func TestGetByTitle(t *testing.T) {
 	assert.NotNil(t, anArticle)
 }
 
-func TestDelete(t *testing.T) {
+func TestArticalDelete(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
@@ -134,7 +134,7 @@ func TestDelete(t *testing.T) {
 	assert.NoError(t, err)
 }
 
-func TestUpdate(t *testing.T) {
+func TestArticalUpdate(t *testing.T) {
 	now := time.Now()
 	ar := &domain.Article{
 		ID:        12,

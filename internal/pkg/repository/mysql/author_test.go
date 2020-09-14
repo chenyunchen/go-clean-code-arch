@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	sqlmock "gopkg.in/DATA-DOG/go-sqlmock.v1"
 
-	repository "github.com/bxcodec/go-clean-arch/author/repository/mysql"
+	repository "gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/repository/mysql"
 )
 
-func TestGetByID(t *testing.T) {
+func TestAuthorGetByID(t *testing.T) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
