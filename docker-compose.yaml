@@ -11,14 +11,14 @@ services:
       mysql:
         condition: service_healthy
     volumes:
-      - ./config.json:/app/config.json
+      - ./config.json:/app/config.json:ro
 
   mysql:
     image: mysql:5.7
     container_name: go_clean_arch_mysql
     command: mysqld --user=root
     volumes:
-      - ./article.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./article.sql:/docker-entrypoint-initdb.d/init.sql:ro
     ports:
       - 3306:3306
     environment:
