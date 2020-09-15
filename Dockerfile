@@ -23,4 +23,4 @@ EXPOSE 9090
 
 COPY --from=builder /app/engine /app
 
-CMD /app/engine --config config.json
+CMD /app/engine

@@ -15,6 +15,9 @@ github.com/go-playground/universal-translator
 # github.com/go-sql-driver/mysql v1.5.0
 ## explicit
 github.com/go-sql-driver/mysql
+# github.com/google/wire v0.4.0
+## explicit
+github.com/google/wire
 # github.com/hashicorp/hcl v1.0.0
 github.com/hashicorp/hcl
 github.com/hashicorp/hcl/hcl/ast

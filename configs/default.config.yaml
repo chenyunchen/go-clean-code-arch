@@ -1,0 +1,8 @@
+server:
+  port: 9090
+database:
+  dbname: article
+  host: mysql
+  port: 3306
+  user: user
+  password: password

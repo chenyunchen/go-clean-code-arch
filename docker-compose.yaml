@@ -5,13 +5,14 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: article_management_api
+    command: ["/app/engine","http"]
     ports:
       - 9090:9090
     depends_on:
       mysql:
         condition: service_healthy
     volumes:
-      - ./config.json:/app/config.json:ro
+      - ./configs:/app/configs:ro
 
   mysql:
     image: mysql:5.7

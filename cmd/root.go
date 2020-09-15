@@ -16,86 +16,25 @@ limitations under the License.
 package cmd
 
 import (
-	"database/sql"
 	"fmt"
-	"log"
-	"net/url"
 	"os"
-	"time"
 
-	"github.com/labstack/echo"
 	"github.com/spf13/cobra"
-
-	homedir "github.com/mitchellh/go-homedir"
-	"github.com/spf13/viper"
-
-	_ "github.com/go-sql-driver/mysql"
-
-	_articleHttpDelivery "gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/delivery/http"
-	_articleHttpDeliveryMiddleware "gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/delivery/http/middleware"
-	_repo "gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/repository/mysql"
-	_articleUcase "gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/usecase"
 )
 
 var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cmd",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	Run: func(cmd *cobra.Command, args []string) {
-		dbHost := viper.GetString(`database.host`)
-		dbPort := viper.GetString(`database.port`)
-		dbUser := viper.GetString(`database.user`)
-		dbPass := viper.GetString(`database.pass`)
-		dbName := viper.GetString(`database.name`)
-		connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
-		val := url.Values{}
-		val.Add("parseTime", "1")
-		val.Add("loc", "Asia/Jakarta")
-		dsn := fmt.Sprintf("%s?%s", connection, val.Encode())
-		dbConn, err := sql.Open(`mysql`, dsn)
-
-		if err != nil {
-			log.Fatal(err)
-		}
-		err = dbConn.Ping()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		defer func() {
-			err := dbConn.Close()
-			if err != nil {
-				log.Fatal(err)
-			}
-		}()
-
-		e := echo.New()
-		middL := _articleHttpDeliveryMiddleware.InitMiddleware()
-		e.Use(middL.CORS)
-		authorRepo := _repo.NewMysqlAuthorRepository(dbConn)
-		ar := _repo.NewMysqlArticleRepository(dbConn)
-
-		timeoutContext := time.Duration(viper.GetInt("context.timeout")) * time.Second
-		au := _articleUcase.NewArticleUsecase(ar, authorRepo, timeoutContext)
-		_articleHttpDelivery.NewArticleHandler(e, au)
-
-		log.Fatal(e.Start(viper.GetString("server.address")))
-	},
+	Use: "engine",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
+	rootCmd.AddCommand(
+		httpCmd,
+	)
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -103,41 +42,5 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cmd.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-
-		// Search config in home directory with name ".cmd" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".cmd")
-	}
-
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
-	}
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "./configs", "Config Path")
 }
