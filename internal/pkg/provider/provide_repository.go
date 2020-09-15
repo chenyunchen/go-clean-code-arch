@@ -6,15 +6,7 @@ import (
 	"net/url"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/google/wire"
 	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/config"
-	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/repository/mysql"
-)
-
-var RepositorySet = wire.NewSet(
-	mysql.NewMysqlArticleRepository,
-	mysql.NewMysqlAuthorRepository,
-	NewDBConn,
 )
 
 func NewDBConn(config config.Config) (*sql.DB, error) {
