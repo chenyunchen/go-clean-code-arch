@@ -21,6 +21,7 @@ func NewConfig(configPath string) (config Config, err error) {
 	v.SetDefault("database.user", "user")
 	v.SetDefault("database.password", "password")
 	v.SetDefault("server.port", 9090)
+	v.SetDefault("context.timeout", "10s")
 
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 

@@ -27,7 +27,7 @@ func Initialize(configPath string) (*Application, error) {
 	}
 	articleRepository := mysql.NewMysqlArticleRepository(db)
 	authorRepository := mysql.NewMysqlAuthorRepository(db)
-	duration := provider.NewTimeoutContextDuration()
+	duration := provider.NewTimeoutContextDuration(configConfig)
 	articleUsecase := usecase.NewArticleUsecase(articleRepository, authorRepository, duration)
 	echo := provider.NewEcho(goMiddleware, articleUsecase)
 	application := newApplication(configConfig, echo)

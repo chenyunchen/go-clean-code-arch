@@ -1,3 +1,9 @@
+install-wire:
+	go get github.com/google/wire/cmd/wire
+
+gen:
+	wire ./...
+
 install-mock:
 	brew install vektra/tap/mockery
 	brew upgrade mockery

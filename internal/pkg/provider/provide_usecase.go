@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/google/wire"
-	"github.com/spf13/viper"
+	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/config"
 	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/usecase"
 )
 
@@ -13,6 +13,6 @@ var UseCaseSet = wire.NewSet(
 	NewTimeoutContextDuration,
 )
 
-func NewTimeoutContextDuration() time.Duration {
-	return time.Duration(viper.GetInt("context.timeout")) * time.Second
+func NewTimeoutContextDuration(config config.Config) time.Duration {
+	return config.Context.Timeout
 }

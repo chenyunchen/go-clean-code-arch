@@ -1,8 +1,15 @@
 package config
 
+import "time"
+
 type Config struct {
 	Database DatabaseConfig `mapstructure:"database"`
 	Server   ServerConfig   `mapstructure:"server"`
+	Context  ContextConfig  `mapstructure:"context"`
+}
+
+type ContextConfig struct {
+	Timeout time.Duration `mapstructure:"timeout"`
 }
 
 type ServerConfig struct {
