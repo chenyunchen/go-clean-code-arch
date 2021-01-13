@@ -20,9 +20,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/cmd/http"
 )
-
-var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -33,7 +32,7 @@ var rootCmd = &cobra.Command{
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	rootCmd.AddCommand(
-		httpCmd,
+		http.Cmd,
 	)
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -42,5 +41,5 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "./configs", "Config Path")
+	rootCmd.PersistentFlags().StringP("config", "c", "./configs", "Config Path")
 }

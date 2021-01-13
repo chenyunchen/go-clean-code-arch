@@ -6,7 +6,6 @@
 package http
 
 import (
-	"github.com/google/wire"
 	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/config"
 	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/delivery/http/middleware"
 	"gitlab.silkrode.com.tw/team_golang/kbc2/sample/internal/pkg/provider"
@@ -34,9 +33,3 @@ func Initialize(configPath string) (*Application, error) {
 	application := newApplication(configConfig, echo)
 	return application, nil
 }
-
-// wire.go:
-
-var appSet = wire.NewSet(
-	newApplication, config.NewConfig, provider.NewEcho, middleware.NewMiddleware, mysql.NewMysqlArticleRepository, mysql.NewMysqlAuthorRepository, provider.NewDBConn, usecase.NewArticleUsecase, provider.NewTimeoutContextDuration,
-)
